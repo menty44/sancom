@@ -101,7 +101,7 @@ public class JobseekerController {
     }
 
 
-    @GetMapping("/users")
+    @GetMapping("/jobseekers")
     public Page<Jobseeker> getAllUsers(Pageable pageable) {
         return jobseekerRepository.findAll(pageable);
     }

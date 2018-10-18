@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Repository;
 
+import java.util.UUID;
 import java.util.concurrent.Future;
 
 /**
@@ -24,7 +25,8 @@ import java.util.concurrent.Future;
 //}
 
 @Repository
-public interface EmployerRepository extends JpaRepository<Employer, Long> {
+//public interface EmployerRepository extends JpaRepository<Employer, Long> {
+public interface EmployerRepository extends JpaRepository<Employer, UUID> {
 
     Employer findByEmail(String email);
 

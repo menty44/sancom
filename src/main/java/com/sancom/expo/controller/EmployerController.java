@@ -5,6 +5,7 @@ package com.sancom.expo.controller;
  * Created by admin on 10/18/18.
  */
 
+import com.sancom.expo.exception.ResourceNotFoundException;
 import com.sancom.expo.model.Employer;
 import com.sancom.expo.repository.EmployerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,6 +95,16 @@ public class EmployerController {
     @GetMapping("/employers")
     public Page<Employer> getAllEmployerss(Pageable pageable) {
         return employerRepository.findAll(pageable);
+    }
+
+    @DeleteMapping("/employer/{id}")
+    public ResponseEntity<?> deleteEmployer(@PathVariable(value = "id") UUID employerId) {
+        Employer employer = employerRepository.findById(employerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", employerId));
+
+        employerRepository.delete(employer);
+
+        return ResponseEntity.ok().build();
     }
 
 
