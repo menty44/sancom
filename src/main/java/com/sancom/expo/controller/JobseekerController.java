@@ -45,13 +45,15 @@ public class JobseekerController {
             @RequestParam(value = "age") int age,
             @RequestParam(value = "email") String email,
             @RequestParam(value = "mobile") String mobile,
+            @RequestParam(value = "level") String level,
+            @RequestParam(value = "experience") int experience,
             @RequestParam(value = "password") String password) throws IOException, MessagingException {
 
         Map<String,String> response = new HashMap<String, String>();
 
 
         if(firstname!= null && !firstname.isEmpty() && lastname!= null && !lastname.isEmpty() && age != 0 && email!= null && !email.isEmpty() && password!= null && !password.isEmpty()
-                && mobile!= null && !mobile.isEmpty() && gender!= null && !gender.isEmpty()){
+                && mobile!= null && !mobile.isEmpty() && gender!= null && !gender.isEmpty() && level!= null && !level.isEmpty()){
 
 
             Jobseeker myemail = jobseekerRepository.findByEmail(email);
@@ -66,6 +68,9 @@ public class JobseekerController {
                 jobseeker.setGender(gender);
                 jobseeker.setAge(age);
                 jobseeker.setEmail(email);
+                jobseeker.setEdu_level(level);
+                jobseeker.setExperience(experience);
+
                 jobseeker.setMobile(mobile);
                 jobseeker.setPassword(password);
 

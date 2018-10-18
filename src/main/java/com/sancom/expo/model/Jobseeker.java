@@ -53,6 +53,10 @@ public class Jobseeker {
 
     private String mobile;
 
+    private String edu_level;
+
+    private int experience;
+
 
     public UUID getId() {
         return id;
@@ -120,5 +124,22 @@ public class Jobseeker {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+
+    public String getEdu_level() {
+        return edu_level;
+    }
+
+    public void setEdu_level(String edu_level) {
+        this.edu_level = edu_level;
+    }
+
+    public int getExperience() {
+        return experience;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
     }
 }
