@@ -5,11 +5,12 @@ package com.sancom.expo.logic;
  * Created by admin on 10/18/18.
  */
 
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import java.util.UUID;
+import javax.mail.MessagingException;
+import java.io.IOException;
 
 /**
  * Fredrick Oluoch
@@ -20,30 +21,33 @@ import java.util.UUID;
 
 public class Email {
 
-    public void sendMail( String to) {
 
-        if (to != null && !to.isEmpty()) {
-            SimpleMailMessage mail = new SimpleMailMessage();
+    @Autowired
+    private JavaMailSender sender;
 
-            try {
-                String subject = "Sancom Registration";
-                String body = "Welcome to Sancom Job Placement. You are allowed to apply only three jobs per day. ";
-                String from = "info@blaqueyard.com";
+    @Autowired
+    JavaMailSender javaMailSender;
 
-                mail.setFrom(from);
-                mail.setTo(to);
-                mail.setSubject(subject);
-                mail.setText(body);
+    public void sendMail(String to) throws MessagingException, IOException {
 
-                System.out.println("Sending Email For Activation...");
+        SimpleMailMessage mail = new SimpleMailMessage();
 
-                javaMailSender.send(mail);
-                System.out.println("Done! Sending Emails");
-            }catch (Exception ex){
-                ex.printStackTrace();
-            }
-        }else {
-            System.out.println("Missing Parameters");
+        try {
+            String subject = "AfroBoot Account Activation";
+            String body = "Welcome to Sancom.";
+            String from = "info@blaqueyard.com";
+
+            mail.setFrom(from);
+            mail.setTo(to);
+            mail.setSubject(subject);
+            mail.setText(body);
+
+            System.out.println("Sending Email For Activation...");
+
+            javaMailSender.send(mail);
+            System.out.println("Done! Sending Emails");
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
 
     }
