@@ -1,4 +1,4 @@
-package com.sancom.expo;
+package com.sancom.expo.logic;
 
 
 /**
