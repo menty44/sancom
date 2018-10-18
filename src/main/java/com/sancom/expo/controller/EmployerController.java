@@ -97,14 +97,42 @@ public class EmployerController {
         return employerRepository.findAll(pageable);
     }
 
-    @DeleteMapping("/employer/{id}")
-    public ResponseEntity<?> deleteEmployer(@PathVariable(value = "id") UUID employerId) {
-        Employer employer = employerRepository.findById(employerId)
+    @GetMapping("/singleemployer/{id}")
+    public Employer getEmployerById(@PathVariable(value = "id") UUID employerId) {
+        Map<String,String> response = new HashMap<String, String>();
+
+        //Employer em = employerRepository.getOne(employerId);
+
+        return employerRepository.findById(employerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", employerId));
+    }
 
-        employerRepository.delete(employer);
+    @DeleteMapping("/delemployer/{id}")
+    public ResponseEntity<?> deleteEmployer(@PathVariable(value = "id") UUID employerId) {
+//        ResponseEntity<Map<String,String>>
+        Map<String,String> response = new HashMap<String, String>();
 
-        return ResponseEntity.ok().build();
+        Employer em = employerRepository.getOne(employerId);
+
+//        return employerRepository.getOne(employerId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", employerId));
+
+                if(em == null){
+
+                    String ts = "the id is missing or invalid";
+                    response.put("error", ts);
+                    response.put("code", "05");
+//                    return ResponseEntity.badRequest().body(response);
+                    return ResponseEntity.accepted().body(response);
+                }else {
+                    employerRepository.delete(em);
+
+                    response.put("ok", "delete success");
+                    response.put("code", "00");
+                    return ResponseEntity.accepted().body(response);
+                }
+
+//        return employer;
     }
 
 

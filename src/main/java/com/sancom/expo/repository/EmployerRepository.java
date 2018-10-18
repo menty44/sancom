@@ -34,7 +34,7 @@ public interface EmployerRepository extends JpaRepository<Employer, UUID> {
 
     Employer findByMobile(String mobile);
 
-//    Jobseeker findByEncry(UUID encry);
+//    Employer findByUuid(UUID id);
 
     // Enables the distinct flag for the query
 //    List<Jobseeker> findDistinctUserByEmailOrPassword(String email, String password);
