@@ -107,6 +107,22 @@ public class EmployerController {
                 .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", employerId));
     }
 
+    @PutMapping("/updateemployer/{id}")
+    public Employer updateEmployert(@PathVariable(value = "id") UUID employerId,
+//                               @Valid @RequestBody Employer companyname
+                                    @RequestParam(value = "companyname") String companyname
+    ) {
+
+        Employer employer = employerRepository.findById(employerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", employerId));
+
+        //gender.setTitle(noteDetails.getTitle());
+        employer.setCompanyname(companyname);
+
+        Employer updatedemployer = employerRepository.save(employer);
+        return updatedemployer;
+    }
+
     @DeleteMapping("/delemployer/{id}")
     public ResponseEntity<?> deleteEmployer(@PathVariable(value = "id") UUID employerId) {
 //        ResponseEntity<Map<String,String>>
