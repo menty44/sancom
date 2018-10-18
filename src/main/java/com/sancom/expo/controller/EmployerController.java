@@ -91,7 +91,7 @@ public class EmployerController {
     }
 
 
-    @GetMapping("/users")
+    @GetMapping("/employers")
     public Page<Employer> getAllEmployerss(Pageable pageable) {
         return employerRepository.findAll(pageable);
     }

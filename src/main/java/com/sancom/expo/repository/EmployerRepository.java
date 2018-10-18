@@ -49,7 +49,7 @@ public interface EmployerRepository extends JpaRepository<Employer, Long> {
 //    List<Jobseeker> findByEmailOrderByFirstnameDesc(String email);
 
     @Async
-    Future<Employer> findByFirstname(String firstname);
+    Future<Employer> findByCompanyname(String companyname);
 
 
 }
