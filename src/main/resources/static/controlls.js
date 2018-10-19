@@ -2214,18 +2214,26 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
     }
 
+    $scope.back = function () {
+        // $location.path('http://localhost:8080/');
+        //$location.reload();
+        location = location;
+    };
+
     $scope.selectjob = function (par) {
 
         console.log(par);
 
         if(par == "employer"){
+            // $location.path('/main');
             console.log("this is employer");
             $rootScope.sanstatus = 22;
-            $location.path('/main');
+
         }else if(par  == "seeker"){
+            // $location.path('/main');
             console.log("this is seeker");
             $rootScope.sanstatus = 20;
-            $location.path('/main');
+
         }else {
             console.log('unknown parameter')
         }
@@ -3161,5 +3169,52 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
         var colTypes = uiGridExporterConstants.ALL;
         uiGridExporterService.csvExport(grid, rowTypes, colTypes);
     };
+
+    $scope.sancomgetjobs = function sancomgetjobs()
+    {
+
+        console.log('showing all products ahead of its time');
+
+        $.LoadingOverlay("show",
+            {
+                image: "",
+                background: "rgba(165, 190, 100, 0.5)",
+                text: "Loading All Jobs ..."
+            });
+
+        var loginurl = "http://localhost:8080/api/posts";
+
+
+        // Simple GET request
+        $http(
+            {
+                method: 'GET',
+                url: loginurl
+            }).then(function successCallback(response)
+        {
+            // this callback will be called asynchronously
+            // when the response is available
+            var loginresponse = response.data;
+            var loginresponse1 = response;
+
+            localStorage.setItem('myjobs', JSON.stringify(loginresponse));
+            $rootScope.myjobs = loginresponse;
+            console.log(loginresponse);
+            $.LoadingOverlay("hide");
+
+        }).then(function errorCallback(error)
+        {
+
+            console.log(error);
+
+            $.LoadingOverlay("hide");
+        });
+
+
+
+
+
+    }
+
 
 });

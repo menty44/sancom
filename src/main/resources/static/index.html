@@ -213,49 +213,93 @@
         background: #fff;
     }
 
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background-color: #1bc5ff;
+        height: 65px;
+    }
+
+    li {
+        float: left;
+    }
+
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 16px;
+        text-decoration: none;
+    }
+
+    li a:hover {
+        background-color: #111111;
+    }
+
 </style>
 
-<div class="center-vertical">
-    <div class="center-content row">
+    <ul >
+        <li><a href="/">Home</a></li>
+        <li><a>Categories</a></li>
 
-        <form action="" id="login-validation" class="col-md-4 col-sm-5 col-xs-11 col-lg-3 center-margin" method="">
-            <h3 class="text-center pad25B font-gray text-transform-upr font-size-23">SANCOM PLACEMENT PORTAL <span class="opacity-80">v1.0</span></h3>
-            <div id="login-form" class="content-box bg-default" ng-init="selectjob()">
-                <div class="content-box-wrapper pad20A">
-                    <img style="width: 190px; height: 65px;" class="mrg25B center-margin display-block" src="../../img/logo1.png" alt="">
+        <li style="float: right"><a>Login</a></li>
+        <li style="float: right"><a>Register</a></li>
+        <li style="float: right"><a>Dashboard</a></li>
+    </ul>
+<div style="padding-top: 10px; padding-bottom: 10px;">
 
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary" ng-click="selectjob('employer')">EMPLOYERS</button>
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary" ng-click="selectjob('seeker')">JOB SEEKERS</button>
-                    </div>
+</div>
+<!--<div style="padding-top: 10px;-->
+    <!--box-shadow: 5px 5px 8px #1bc5ff;">-->
+    <!--<p>Define multiple shadows with blur effect.</p>-->
+<!--</div>-->
 
-                </div>
+<div class="center-vertical" ng-init="sancomgetjobs()">
+
+    <!--{{myjobs}}-->
+    <div style="padding-top:45px; color: #00a9ff; box-shadow: 5px 5px 8px #1bc5ff;" ng-repeat=" jobs in myjobs.content">
+
+
+
+            <div style="padding-left: 5px;" data-toggle="collapse">
+                <h2>{{jobs.jobtitle}}</h2>
             </div>
 
-            <div id="login-forgot" class="content-box bg-default hide">
-                <div class="content-box-wrapper pad20A">
 
-                    <div class="form-group">
-                        <label for="exampleInputEmail2">Email address:</label>
-                        <div class="input-group">
-                            <span class="input-group-addon addon-inside bg-gray">
-                                <i class="glyph-icon icon-envelope-o"></i>
-                            </span>
-                            <input type="email" class="form-control" id="exampleInputEmail2" placeholder="Enter email">
-                        </div>
+
+        <div class="panel-group">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h4 class="panel-title">
+                        <a data-toggle="collapse" href="#collapse1">More Details +</a>
+                    </h4>
+                </div>
+                <div id="collapse1" class="panel-collapse collapse">
+                    <div class="panel-body">Job Code : {{jobs.job_code}} <button style="float: right;" type="button" class="btn btn-success">Apply</button></div>
+                    <div class="panel-body">Category : {{jobs.years_of_experience}}</div>
+                    <div class="panel-body">Category : {{jobs.cattype}}</div>
+                    <div class="panel-footer">
+                        <div class="panel-body"><h4>Description</h4></div>
+                        <span style="word-wrap: break-word;">{{jobs.description}}</span>
                     </div>
                 </div>
-                <div class="button-pane text-center">
-                    <button type="submit" class="btn btn-md btn-primary">Recover Password</button>
-                    <a href="#" class="btn btn-md btn-link switch-button" switch-target="#login-form" switch-parent="#login-forgot" title="Cancel">Cancel</a>
-                </div>
             </div>
-
-        </form>
+        </div>
 
     </div>
+    <!--<div style="padding-top: 10px;-->
+    <!--box-shadow: 5px 5px 8px #1bc5ff;" ng-repeat=" jobs in myjobs">-->
+        <!--<p style="color: #00a9ff">-->
+            <!--<h2>{{jobs.jobtitle}}</h2>-->
+        <!--</p>-->
+        <!--&lt;!&ndash;<p>{{jobs.job_code}}</p>&ndash;&gt;-->
+    <!--</div>-->
+    <!--<div class="center-content row" >-->
+
+      <!---->
+    <!--</div>-->
 </div>
 
 
