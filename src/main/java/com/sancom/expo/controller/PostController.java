@@ -6,8 +6,8 @@ package com.sancom.expo.controller;
  */
 
 import com.sancom.expo.exception.ResourceNotFoundException;
-import com.sancom.expo.model.Jobseeker;
-import com.sancom.expo.repository.JobseekerRepository;
+import com.sancom.expo.model.Post;
+import com.sancom.expo.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,66 +32,61 @@ import java.util.UUID;
 public class PostController {
 
     @Autowired
-    JobseekerRepository jobseekerRepository;
-
-    private UUID encry = UUID.randomUUID();
-
+    PostRepository postRepository;
+    
     //new user reg
     @CrossOrigin
-    @RequestMapping(value = "newjobseeker", method = RequestMethod.POST, produces = "application/json")
-    public ResponseEntity<Map<String,String>> registerNewUser(
-            @RequestParam(value = "firstname") String firstname,
-            @RequestParam(value = "lastname") String lastname,
-            @RequestParam(value = "gender") String gender,
-            @RequestParam(value = "age") int age,
-            @RequestParam(value = "email") String email,
-            @RequestParam(value = "mobile") String mobile,
-            @RequestParam(value = "level") String level,
-            @RequestParam(value = "experience") int experience,
-            @RequestParam(value = "password") String password) throws IOException, MessagingException {
+    @RequestMapping(value = "newpost", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Map<String,String>> newPost(
+            @RequestParam(value = "jobtitle") String jobtitle,
+            @RequestParam(value = "description") String description,
+            @RequestParam(value = "cattype") String cattype,
+            @RequestParam(value = "years_of_experience") int years_of_experience,
+            @RequestParam(value = "status") String status,
+            @RequestParam(value = "interview_date") String interview_date,
+            @RequestParam(value = "interview_start_time") String interview_start_time,
+            @RequestParam(value = "interview_end_time") String interview_end_time,
+            @RequestParam(value = "posted_by") String posted_by) throws IOException, MessagingException {
 
         Map<String,String> response = new HashMap<String, String>();
 
 
-        if(firstname!= null && !firstname.isEmpty() && lastname!= null && !lastname.isEmpty() && age != 0 && email!= null && !email.isEmpty() && password!= null && !password.isEmpty()
-                && mobile!= null && !mobile.isEmpty() && gender!= null && !gender.isEmpty() && level!= null && !level.isEmpty()){
+        if(jobtitle!= null && !jobtitle.isEmpty() && description!= null && !description.isEmpty() && years_of_experience != 0 && status!= null && !status.isEmpty()
+                && interview_date!= null && !interview_date.isEmpty()
+                && interview_start_time!= null && !interview_start_time.isEmpty() && interview_end_time!= null && !interview_end_time.isEmpty()
+                && posted_by!= null && !posted_by.isEmpty() && cattype!= null && !cattype.isEmpty()){
 
 
-            Jobseeker myemail = jobseekerRepository.findByEmail(email);
-            //Jobseeker mymobile = userRepository.findByMobile(mobile);
+            Post mydate = postRepository.findByEmail(interview_date);
+            //Post mymobile = userRepository.findByMobile(mobile);
 
-            if(myemail == null){
+            if(mydate == null){
 
-                Jobseeker jobseeker = new Jobseeker();
+                Post post = new Post();
 
-                jobseeker.setFirstname(firstname);
-                jobseeker.setLastname(lastname);
-                jobseeker.setGender(gender);
-                jobseeker.setAge(age);
-                jobseeker.setEmail(email);
-                jobseeker.setEdu_level(level);
-                jobseeker.setExperience(experience);
+                post.setJobtitle(jobtitle);
+                post.setDescription(description);
+                post.setCattype(cattype);
+                post.setYears_of_experience(years_of_experience);
+                post.setStatus(status);
+                post.setInterview_date(interview_date);
+                post.setPassinterview_start_time(interview_start_time);
+                post.setInterview_end_time(interview_end_time);
+                post.setPosted_by(posted_by);
 
-                jobseeker.setMobile(mobile);
-                jobseeker.setPassword(password);
-
-                jobseekerRepository.save(jobseeker);
+                postRepository.save(post);
 
                 response.put("ok", "save success");
                 response.put("code", "00");
                 return ResponseEntity.accepted().body(response);
 
-
-
             }else {
 
                 response.put("mg", "fail");
                 response.put("code", "03");
-                response.put("desc", "user already registered");
+                response.put("desc", "post already exists");
                 return ResponseEntity.ok().body(response);
             }
-
-
 
         }else {
             String ts = "one of the parameters is missing";
@@ -102,45 +97,43 @@ public class PostController {
     }
 
 
-    @GetMapping("/jobseekers")
-    public Page<Jobseeker> getAlljobseekers(Pageable pageable) {
-        return jobseekerRepository.findAll(pageable);
+    @GetMapping("/posts")
+    public Page<Post> getAllposts(Pageable pageable) {
+        return postRepository.findAll(pageable);
     }
 
 
 
-    @GetMapping("/singlejobseeker/{id}")
-    public Jobseeker getJobseekerById(@PathVariable(value = "id") UUID jobseekerId) {
+    @GetMapping("/singlepost/{id}")
+    public Post getPostById(@PathVariable(value = "id") UUID postId) {
         Map<String,String> response = new HashMap<String, String>();
 
         //Employer em = employerRepository.getOne(employerId);
 
-        return jobseekerRepository.findById(jobseekerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", jobseekerId));
+        return postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
     }
 
-    @PutMapping("/updateseeker/{id}")
-    public Jobseeker updateEmployert(@PathVariable(value = "id") UUID jobseekerId,
+    @PutMapping("/updatepost/{id}")
+    public Post updatePost(@PathVariable(value = "id") UUID postId,
 //                               @Valid @RequestBody Employer companyname
-                                    @RequestParam(value = "email") String email
+                                    @RequestParam(value = "jobtitle") String jobtitle
     ) {
 
-        Jobseeker jobseeker = jobseekerRepository.findById(jobseekerId)
-                .orElseThrow(() -> new ResourceNotFoundException("Jobseeker", "id", jobseekerId));
+        Post post = postRepository.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post", "id", postId));
 
-        //gender.setTitle(noteDetails.getTitle());
-        jobseeker.setEmail(email);
+        post.setJobtitle(jobtitle);
 
-        Jobseeker updateseeker = jobseekerRepository.save(jobseeker);
-        return updateseeker;
+        return postRepository.save(post);
     }
 
-    @DeleteMapping("/delejobseeker/{id}")
-    public ResponseEntity<?> deleteEmployer(@PathVariable(value = "id") UUID jobseekerId) {
+    @DeleteMapping("/delepost/{id}")
+    public ResponseEntity<?> deletePost(@PathVariable(value = "id") UUID postId) {
 
         Map<String,String> response = new HashMap<String, String>();
 
-        Jobseeker em = jobseekerRepository.getOne(jobseekerId);
+        Post em = postRepository.getOne(postId);
 
 //        return employerRepository.getOne(employerId)
 //                .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", employerId));
@@ -152,9 +145,9 @@ public class PostController {
             response.put("code", "05");
             return ResponseEntity.accepted().body(response);
         }else {
-            jobseekerRepository.delete(em);
+            postRepository.delete(em);
 
-            response.put("ok", "delete success");
+            response.put("ok", "delete post success");
             response.put("code", "00");
             return ResponseEntity.accepted().body(response);
         }
