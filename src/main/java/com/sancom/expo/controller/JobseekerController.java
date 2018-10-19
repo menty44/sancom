@@ -5,6 +5,7 @@ package com.sancom.expo.controller;
  * Created by admin on 10/18/18.
  */
 
+import com.sancom.expo.exception.ResourceNotFoundException;
 import com.sancom.expo.model.Jobseeker;
 import com.sancom.expo.repository.JobseekerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -102,9 +103,68 @@ public class JobseekerController {
 
 
     @GetMapping("/jobseekers")
-    public Page<Jobseeker> getAllUsers(Pageable pageable) {
+    public Page<Jobseeker> getAlljobseekers(Pageable pageable) {
         return jobseekerRepository.findAll(pageable);
     }
+
+
+
+    @GetMapping("/singlejobseeker/{id}")
+    public Jobseeker getJobseekerById(@PathVariable(value = "id") UUID jobseekerId) {
+        Map<String,String> response = new HashMap<String, String>();
+
+        //Employer em = employerRepository.getOne(employerId);
+
+        return jobseekerRepository.findById(jobseekerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", jobseekerId));
+    }
+
+    @PutMapping("/updateseeker/{id}")
+    public Jobseeker updateEmployert(@PathVariable(value = "id") UUID jobseekerId,
+//                               @Valid @RequestBody Employer companyname
+                                    @RequestParam(value = "email") String email
+    ) {
+
+        Jobseeker jobseeker = jobseekerRepository.findById(jobseekerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Jobseeker", "id", jobseekerId));
+
+        //gender.setTitle(noteDetails.getTitle());
+        jobseeker.setEmail(email);
+
+        Jobseeker updateseeker = jobseekerRepository.save(jobseeker);
+        return updateseeker;
+    }
+
+    @DeleteMapping("/delejobseeker/{id}")
+    public ResponseEntity<?> deleteEmployer(@PathVariable(value = "id") UUID jobseekerId) {
+
+        Map<String,String> response = new HashMap<String, String>();
+
+        Jobseeker em = jobseekerRepository.getOne(jobseekerId);
+
+//        return employerRepository.getOne(employerId)
+//                .orElseThrow(() -> new ResourceNotFoundException("Employer", "id", employerId));
+
+        if(em == null){
+
+            String ts = "the id is missing or its invalid";
+            response.put("error", ts);
+            response.put("code", "05");
+            return ResponseEntity.accepted().body(response);
+        }else {
+            jobseekerRepository.delete(em);
+
+            response.put("ok", "delete success");
+            response.put("code", "00");
+            return ResponseEntity.accepted().body(response);
+        }
+
+    }
+
+
+
+
+
 
 
 
