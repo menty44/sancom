@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="myApp">
 <head>
     <style>
         /* Loading Spinner */
@@ -159,8 +159,31 @@
     <script type="text/javascript" src="../../assets/js-core/modernizr.js"></script>
     <script type="text/javascript" src="../../assets/js-core/jquery-cookie.js"></script>
 
+    <script type="text/javascript" src="../../angularjsdep/angular.js"></script>
+    <script type="text/javascript" src="../../angularjsdep/angular-route.js"></script>
+    <script type="text/javascript" src="../../angularjsdep/angular-animate.min.js"></script>
+    <script type="text/javascript" src="../../angularjsdep/angular-touch.js"></script>
+    <script type="text/javascript" src="../../boot/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../../loader/loadingoverlay.min.js"></script>
+
+    <script src="../../sweetalert/sweetalert.min.js"></script>
+
+    <link href="../../angularmaterial/angular-material.min.css">
+
+    <script src="../../angularmaterial/angular-material.min.js"></script>
 
 
+    <script src="../../aggrid/ag-grid-community.min.js"></script>
+    <script src="bower_components/angular-growl-notifications/dist/angular-growl-notifications.min.js"></script>
+    <!--<script src="bower_components/sweetalert/src/sweetalert.d.ts"></script>-->
+    <!--<script src="bower_components/sweetalert/src/sweetalert.js"></script>-->
+    <!--<script src="bower_components/ngSweetAlert/SweetAlert.js"></script>-->
+    <link href="../../bower_components/sweetalert/src/sweetalert.css">
+    <script src="../../ui-bootstrap/ui-bootstrap-tpls-2.5.0.min.js"></script>
+    <script src="../../typeahead/typeahead.bundle.js"></script>
+
+
+    <script type="text/javascript" src="controlls.js"></script>
 
 
     <script type="text/javascript">
@@ -174,7 +197,7 @@
 
 
 </head>
-<body>
+<body ng-controller="registerController" ng-cloak>
 <div id="loading">
     <div class="spinner">
         <div class="bounce1"></div>
@@ -197,30 +220,15 @@
 
         <form action="" id="login-validation" class="col-md-4 col-sm-5 col-xs-11 col-lg-3 center-margin" method="">
             <h3 class="text-center pad25B font-gray text-transform-upr font-size-23">SANCOM PLACEMENT PORTAL <span class="opacity-80">v1.0</span></h3>
-            <div id="login-form" class="content-box bg-default">
+            <div id="login-form" class="content-box bg-default" ng-init="selectjob()">
                 <div class="content-box-wrapper pad20A">
-                    <img class="mrg25B center-margin radius-all-100 display-block" src="../../assets/image-resources/gravatar.jpg" alt="">
-                    <!--<div class="form-group">-->
-                        <!--<div class="input-group">-->
-                            <!--<span class="input-group-addon addon-inside bg-gray">-->
-                                <!--<i class="glyph-icon icon-envelope-o"></i>-->
-                            <!--</span>-->
-                            <!--<input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">-->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <!--<div class="form-group">-->
-                        <!--<div class="input-group">-->
-                            <!--<span class="input-group-addon addon-inside bg-gray">-->
-                                <!--<i class="glyph-icon icon-unlock-alt"></i>-->
-                            <!--</span>-->
-                            <!--<input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">-->
-                        <!--</div>-->
-                    <!--</div>-->
+                    <img style="width: 190px; height: 65px;" class="mrg25B center-margin display-block" src="../../img/logo1.png" alt="">
+
                     <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary">EMPLOYERS</button>
+                        <button type="submit" class="btn btn-block btn-primary" ng-click="selectjob('employer')">EMPLOYERS</button>
                     </div>
                     <div class="form-group">
-                        <button type="submit" class="btn btn-block btn-primary">JOB SEEKERS</button>
+                        <button type="submit" class="btn btn-block btn-primary" ng-click="selectjob('seeker')">JOB SEEKERS</button>
                     </div>
 
                 </div>
