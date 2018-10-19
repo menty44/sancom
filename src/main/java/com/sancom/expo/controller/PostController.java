@@ -8,6 +8,7 @@ package com.sancom.expo.controller;
 import com.sancom.expo.exception.ResourceNotFoundException;
 import com.sancom.expo.model.Post;
 import com.sancom.expo.repository.PostRepository;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -57,10 +58,12 @@ public class PostController {
                 && posted_by!= null && !posted_by.isEmpty() && cattype!= null && !cattype.isEmpty()){
 
 
-            Post mydate = postRepository.findByEmail(interview_date);
-            //Post mymobile = userRepository.findByMobile(mobile);
+            // Create a random string with indexes from the given array of chars
+            String string = RandomStringUtils.random(6, 0, 20, true, true, "bj81G5RDED3DC6142kasok".toCharArray());
+            String sancom = "SANCOM-".concat(string.toUpperCase());
 
-            if(mydate == null){
+            System.out.println();
+
 
                 Post post = new Post();
 
@@ -70,9 +73,10 @@ public class PostController {
                 post.setYears_of_experience(years_of_experience);
                 post.setStatus(status);
                 post.setInterview_date(interview_date);
-                post.setPassinterview_start_time(interview_start_time);
+                post.setInterview_start_time(interview_start_time);
                 post.setInterview_end_time(interview_end_time);
                 post.setPosted_by(posted_by);
+                post.setJob_code(sancom);
 
                 postRepository.save(post);
 
@@ -88,12 +92,12 @@ public class PostController {
                 return ResponseEntity.ok().body(response);
             }
 
-        }else {
-            String ts = "one of the parameters is missing";
-            response.put("error", ts);
-            response.put("code", "05");
-            return ResponseEntity.badRequest().body(response);
-        }
+//        }else {
+//            String ts = "one of the parameters is missing";
+//            response.put("error", ts);
+//            response.put("code", "05");
+//            return ResponseEntity.badRequest().body(response);
+//        }
     }
 
 

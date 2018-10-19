@@ -46,11 +46,13 @@ public class Post {
 
     private String interview_date;
 
-    private String passinterview_start_time;
+    private String interview_start_time;
 
     private String interview_end_time;
 
     private String posted_by;
+
+    private String job_code;
 
     public UUID getId() {
         return id;
@@ -108,12 +110,12 @@ public class Post {
         this.interview_date = interview_date;
     }
 
-    public String getPassinterview_start_time() {
-        return passinterview_start_time;
+    public String getInterview_start_time() {
+        return interview_start_time;
     }
 
-    public void setPassinterview_start_time(String passinterview_start_time) {
-        this.passinterview_start_time = passinterview_start_time;
+    public void setInterview_start_time(String interview_start_time) {
+        this.interview_start_time = interview_start_time;
     }
 
     public String getInterview_end_time() {
@@ -130,5 +132,13 @@ public class Post {
 
     public void setPosted_by(String posted_by) {
         this.posted_by = posted_by;
+    }
+
+    public String getJob_code() {
+        return job_code;
+    }
+
+    public void setJob_code(String job_code) {
+        this.job_code = job_code;
     }
 }

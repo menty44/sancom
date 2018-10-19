@@ -29,7 +29,7 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api")
-public class JobseekerController {
+public class JobapplicantController {
 
     @Autowired
     JobseekerRepository jobseekerRepository;
