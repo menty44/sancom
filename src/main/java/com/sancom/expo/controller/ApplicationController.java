@@ -60,10 +60,11 @@ public class ApplicationController {
                 cv!= null && !cv.isEmpty()){
 
 
-            Application application = applicationRepository.findByJob_code(job_code);
+//            Application application = applicationRepository.findByJob_code(job_code);
+//            String application = applicationRepository.findByJob_code(job_code);
             //Jobseeker mymobile = userRepository.findByMobile(mobile);
 
-            if(application == null){
+//            if(application == null){
 
                 Application application1 = new Application();
 
@@ -85,13 +86,13 @@ public class ApplicationController {
 
 
 
-            }else {
-
-                response.put("mg", "fail");
-                response.put("code", "03");
-                response.put("desc", "you have already applied to this job");
-                return ResponseEntity.ok().body(response);
-            }
+//            }else {
+//
+//                response.put("mg", "fail");
+//                response.put("code", "03");
+//                response.put("desc", "you have already applied to this job");
+//                return ResponseEntity.ok().body(response);
+//            }
 
 
 
@@ -124,15 +125,14 @@ public class ApplicationController {
     @PutMapping("/updateapplication/{id}")
     public Application updateEmployert(@PathVariable(value = "id") UUID jobseekerId,
 //                               @Valid @RequestBody Employer companyname
-                                    @RequestParam(value = "cv") String cv,
+                                    //@RequestParam(value = "cv") String cv,
                                     @RequestParam(value = "coverletter") String coverletter
     ) {
 
         Application application = applicationRepository.findById(jobseekerId)
                 .orElseThrow(() -> new ResourceNotFoundException("Jobseeker", "id", jobseekerId));
 
-        //gender.setTitle(noteDetails.getTitle());
-        application.setCv(cv);
+//        application.setCv(cv);
         application.setCoverletter(coverletter);
 
         Application updateapplicant = applicationRepository.save(application);

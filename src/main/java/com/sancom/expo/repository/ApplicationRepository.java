@@ -18,19 +18,14 @@ import java.util.UUID;
  * email: menty44@gmail.com
  */
 
-//@Repository
-//public class JobseekerRepository extends JpaRepository<Jobseeker, UUID>{
-//}
-
 @Repository
-//public interface EmployerRepository extends JpaRepository<Employer, Long> {
 public interface ApplicationRepository extends JpaRepository<Application, UUID> {
 
-    Application findByJob_code(String job_code);
+//    Application findByJob_code(String job_code);
 
-//    String findEmplyerByEmail(String email);
+//    String findByJob_code(String job_code);
 
-    Application findByApplicant_uid(String applicant_uid);
+    //Application findByApplicant_uid(String applicant_uid);
 
 //    Employer findByUuid(UUID id);
 

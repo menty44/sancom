@@ -20,7 +20,7 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name = "jobs_post")
+@Table(name = "applications")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
