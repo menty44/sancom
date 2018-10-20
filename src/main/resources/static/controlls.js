@@ -1595,9 +1595,9 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
         localStorage.clear();
 
-        $location.path('/categories');
+        $location.path('/');
 
-        swal("Account logged out !", "Dear " + $username.username + ", Thank you for using the System :)", "info");
+        swal("Account logged out !", "Thank you for using the System :)", "info");
 
         localStorage.removeItem("profile");
     };
