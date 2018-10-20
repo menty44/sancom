@@ -77,7 +77,7 @@ public class JobapplicantController {
                 jobseekerRepository.save(jobseeker);
 
                 response.put("ok", "save success");
-                response.put("code", "00");
+                response.put("code", "0");
                 return ResponseEntity.accepted().body(response);
 
 
@@ -196,6 +196,17 @@ public class JobapplicantController {
             response.put("code", "05");
             return ResponseEntity.badRequest().body(response);
         }
+    }
+
+    @GetMapping("singlejobseekeremail")
+    public Jobseeker getJobseekerByEmail(
+            @RequestParam(value = "email") String email ) {
+        Map<String,String> response = new HashMap<String, String>();
+
+        //Employer em = employerRepository.getOne(employerId);
+
+        return jobseekerRepository.findByEmail(email);
+
     }
 
 }

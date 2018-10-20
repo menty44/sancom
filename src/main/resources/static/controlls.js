@@ -2745,17 +2745,17 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
         swal("Polite Notice", "Please Login in order to apply for Jobs !!! ", "warning");
     };
 
-    $scope.registerseeker = function registerseeker(fname, lname, email, age, gender, mobile, password,experience, level)
+    $scope.registerseeker = function registerseeker(firstname, lastname, email, age, gender, mobile, password,experience, level)
     {
         $.LoadingOverlay("show",
             {
                 image: "",
                 background: "rgba(165, 190, 100, 0.5)",
-                text: "Activating your Account " + fname + "..."
+                text: "Activating your Account " + firstname + "..."
             });
 
-        console.log(fname);
-        console.log(lname);
+        console.log(firstname);
+        console.log(lastname);
         console.log(email);
         console.log(age);
         console.log(gender);
@@ -2764,7 +2764,9 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
         console.log(password);
         console.log(experience);
 
-        var farmtipsurl = "http://localhost:8080/api/newjobseeker?"+fname+"&"+lname+"&"+email+"&"+age+"&"+gender+"&"+mobile+"&"+level+"&"+password+"&"+experience;
+        // var firstname = fname;
+        // var lastname = lname;
+        var farmtipsurl = "http://localhost:8080/api/newjobseeker?firstname="+firstname+"&lastname="+lastname+"&email="+email+"&age="+age+"&gender="+gender+"&mobile="+mobile+"&level="+level+"&password="+password+"&experience="+experience;
 
         $http(
             {
@@ -2778,16 +2780,34 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
             console.log(loginresponse);
 
-            swal("Registration Successful" ,"You have been registered", "success");
-            $.LoadingOverlay("hide");
+            if(loginresponse.code == 0){
 
-        }).then(function errorCallback(error)
-        {
+                var NEWsurl = "http://localhost:8080/api/singlejobseekeremail?email="+email;
 
-            console.log(error);
-            $.LoadingOverlay("hide");
+                $http(
+                    {
+                        method: 'GET',
+                        url: NEWsurl
+                    }).then(function successCallback(response)
+                {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    var loginresponse = response.data;
 
-            //$.LoadingOverlay("hide");
+                    console.log(loginresponse);
+
+                    localStorage.setItem('profile', JSON.stringify(loginresponse));
+
+                    swal("Registration Successful" ,"You have been registered", "success");
+                    $.LoadingOverlay("hide");
+
+                });
+                $.LoadingOverlay("hide");
+            }else {
+                $.LoadingOverlay("hide");
+            }
+
+
         });
 
         $.LoadingOverlay("hide");

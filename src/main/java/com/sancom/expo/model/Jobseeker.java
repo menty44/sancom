@@ -142,4 +142,6 @@ public class Jobseeker {
     public void setExperience(int experience) {
         this.experience = experience;
     }
+
+
 }
