@@ -30,9 +30,9 @@ app.config(function ($routeProvider)
                 templateUrl: "regemp.htm"
             })
 
-        .when("/delivery",
+        .when("/dash",
             {
-                templateUrl: "deliveries.htm"
+                templateUrl: "dash.htm"
             })
 
         .when("/profile",
@@ -128,36 +128,6 @@ app.factory("States", function ()
 
 app.controller("registerController", function ($scope, $http, $rootScope, $timeout, $route, $location)
 {
-
-    //"use strict";
-    // $scope.selected = undefined;
-    //
-
-    $scope.dataArray = [
-        {
-            src: 'https://www.travelexcellence.com/images/movil/La_Paz_Waterfall.jpg'
-        },
-        {
-            src: 'http://www.parasholidays.in/blog/wp-content/uploads/2014/05/holiday-tour-packages-for-usa.jpg'
-        },
-        {
-            src: 'http://clickker.in/wp-content/uploads/2016/03/new-zealand-fy-8-1-Copy.jpg'
-        },
-        {
-            src: 'http://images.kuoni.co.uk/73/indonesia-34834203-1451484722-ImageGalleryLightbox.jpg'
-        },
-        {
-            src: 'http://www.holidaysaga.com/wp-content/uploads/2014/09/Day08-SIN-day-Free-City-View.jpg'
-        },
-        {
-            src: 'http://images.kuoni.co.uk/73/malaysia-21747826-1446726337-ImageGalleryLightbox.jpg'
-        },
-        {
-            src: 'http://www.kimcambodiadriver.com/uploads/images/tours/kim-cambodia-driver-angkor-wat.jpg'
-        },
-        {
-            src: 'https://www.travcoa.com/sites/default/files/styles/flexslider_full/public/tours/images/imperialvietnam-halong-bay-14214576.jpg?itok=O-q1yr5_'
-        }];
 
 
     $scope.myInterval = 5000;
@@ -2798,8 +2768,9 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
                     localStorage.setItem('profile', JSON.stringify(loginresponse));
 
-                    swal("Registration Successful" ,"You have been registered", "success");
+                    swal(firstname+"! Registration Successful" ,"You have been registered", "success");
                     $.LoadingOverlay("hide");
+                    $location.path('/');
 
                 });
                 $.LoadingOverlay("hide");
@@ -2811,7 +2782,59 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
         });
 
         $.LoadingOverlay("hide");
-    }
+    };
 
+    $scope.seekerlogin = function seekerlogin(email, password)
+    {
+        console.log(email);
+        console.log(password);
+
+        var loginurl = "http://localhost:8080/api/seeklogin?email="+email+"&password="+password;
+
+        $http(
+            {
+                method: 'POST',
+                url: loginurl
+            }).then(function successCallback(response) {
+            // this callback will be called asynchronously
+            // when the response is available
+            var loginresponse = response.data;
+
+
+            console.log(loginresponse);
+
+            if(loginresponse.code == 0){
+
+                var NEWsurl = "http://localhost:8080/api/singlejobseekeremail?email="+email;
+
+                $http(
+                    {
+                        method: 'GET',
+                        url: NEWsurl
+                    }).then(function successCallback(response)
+                {
+                    // this callback will be called asynchronously
+                    // when the response is available
+                    var loginresponse = response.data;
+
+                    console.log(loginresponse);
+
+                    localStorage.setItem('profile', JSON.stringify(loginresponse));
+
+                    swal("Login Successful" ,"You can now use the Portal", "success");
+                    $.LoadingOverlay("hide");
+                    $location.path('/');
+
+                    $rootScope.seekeron = 0;
+
+                });
+                $.LoadingOverlay("hide");
+            }else {
+                $.LoadingOverlay("hide");
+                swal("Login UnSuccessful" ,"Wrong Credentials", "error");
+            }
+
+        })
+    }
 
 });

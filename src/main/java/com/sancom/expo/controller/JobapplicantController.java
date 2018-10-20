@@ -185,7 +185,7 @@ public class JobapplicantController {
                  }else {
 
                 System.out.println(myemail.toString());
-                response.put("ok", "save success");
+                response.put("ok", "login success");
                 response.put("code", "0");
                 return ResponseEntity.accepted().body(response);
             }
