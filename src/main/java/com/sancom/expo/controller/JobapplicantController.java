@@ -1,6 +1,5 @@
 package com.sancom.expo.controller;
 
-
 /**
  * Created by admin on 10/18/18.
  */
@@ -108,7 +107,6 @@ public class JobapplicantController {
     }
 
 
-
     @GetMapping("/singlejobseeker/{id}")
     public Jobseeker getJobseekerById(@PathVariable(value = "id") UUID jobseekerId) {
         Map<String,String> response = new HashMap<String, String>();
@@ -162,10 +160,42 @@ public class JobapplicantController {
     }
 
 
+    @CrossOrigin
+    @RequestMapping(value = "seeklogin", method = RequestMethod.POST, produces = "application/json")
+    public ResponseEntity<Map<String,String>> loginseeker(
+
+            @RequestParam(value = "email") String email,
+            @RequestParam(value = "password") String password) throws IOException, MessagingException {
+
+        Map<String,String> response = new HashMap<String, String>();
 
 
+        if( email!= null && !email.isEmpty() && password!= null && !password.isEmpty()){
 
 
+            Jobseeker myemail = jobseekerRepository.findJobseekerByEmailAndPassword(email, password);
+            //Jobseeker mymobile = userRepository.findByMobile(mobile);
 
+            if(myemail == null){
+
+                response.put("mg", "fail");
+                response.put("code", "03");
+                response.put("desc", "wrong credentials");
+                return ResponseEntity.ok().body(response);
+                 }else {
+
+                System.out.println(myemail.toString());
+                response.put("ok", "save success");
+                response.put("code", "0");
+                return ResponseEntity.accepted().body(response);
+            }
+
+        }else {
+            String ts = "one of the parameters is missing";
+            response.put("error", ts);
+            response.put("code", "05");
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
 
 }

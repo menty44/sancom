@@ -29,6 +29,14 @@ public interface JobseekerRepository extends JpaRepository<Jobseeker, UUID> {
 
     Jobseeker findByEmail(String email);
 
+    Jobseeker findJobseekerByEmailAndPassword(String email, String password);
+
+//    @Query("SELECT u FROM User u WHERE u.status = ?1")
+//    User findUserByStatus(Integer status);
+// 
+//    @Query("SELECT u FROM User u WHERE u.status = ?1 and u.name = ?2")
+//    User findUserByStatusAndName(Integer status, String name);
+
     String findUserByEmail(String email);
 
     Jobseeker findByMobile(String mobile);

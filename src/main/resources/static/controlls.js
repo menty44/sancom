@@ -1,12 +1,12 @@
-agGrid.initialiseAgGridWithAngular1(angular);
+// agGrid.initialiseAgGridWithAngular1(angular);
 
-var app = angular.module("myApp", ["ngRoute", "agGrid", "growlNotifications", "ui.bootstrap"]);
+var app = angular.module("myApp", ["ngRoute"]);
 app.config(function ($routeProvider)
 {
     $routeProvider
         .when("/",
             {
-                templateUrl: "index.html"
+                templateUrl: "jobs.htm"
             })
         .when("/categories",
             {
@@ -21,9 +21,13 @@ app.config(function ($routeProvider)
             {
                 templateUrl: "login.htm"
             })
-        .when("/reg",
+        .when("/regseeker",
             {
-                templateUrl: "register.htm"
+                templateUrl: "regseeker.htm"
+            })
+        .when("/regemp",
+            {
+                templateUrl: "regemp.htm"
             })
 
         .when("/delivery",
@@ -74,6 +78,11 @@ app.config(function ($routeProvider)
         .when("/payments",
             {
                 templateUrl: "payments.htm"
+            })
+
+        .when("/preapply",
+            {
+                templateUrl: "preapply.htm"
             })
 
         .when("/paybill",
@@ -240,237 +249,9 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
     $rootScope.cart = [];
 
-    /**
-     * Initialize index
-     * @type {number}
-     */
-    var index = 0;
-
-    /**
-     * Boolean to show error if new notification is invalid
-     * @type {boolean}
-     */
-    $scope.invalidNotification = false;
-
-    /**
-     * Placeholder for notifications
-     *
-     * We use a hash with auto incrementing key
-     * so we can use "track by" in ng-repeat
-     *
-     * @type
-     */
-    $scope.notifications = {};
 
 
-    function onModelUpdated()
-    {
-        var model = $scope.gridOptions.api.getModel();
-        var totalRows = $scope.gridOptions.rowData.length;
-        var processedRows = model.getRowCount();
-        $scope.rowCount = processedRows.toLocaleString() + ' / ' + totalRows.toLocaleString();
-    }
 
-    function skillsCellRenderer(params)
-    {
-        var data = params.data;
-        var skills = [];
-        IT_SKILLS.forEach(function (skill)
-        {
-            if (data && data.skills[skill])
-            {
-                skills.push('<img src="https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/images/skills/' + skill + '.png" width="16px" title="' + skill + '" />');
-            }
-        });
-        return skills.join(' ');
-    }
-
-    function countryCellRenderer(params)
-    {
-        var flag = "<img border='0' width='15' height='10' style='margin-bottom: 2px' src='https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/images/flags/" + COUNTRY_CODES[params.value] + ".png'>";
-        return flag + " " + params.value;
-    }
-
-    function createRandomPhoneNumber()
-    {
-        var result = '+';
-        for (var i = 0; i < 12; i++)
-        {
-            result += Math.round(Math.random() * 10);
-            if (i === 2 || i === 5 || i === 8)
-            {
-                result += ' ';
-            }
-        }
-        return result;
-    }
-
-    function percentCellRenderer(params)
-    {
-        var value = params.value;
-
-        var eDivPercentBar = document.createElement('div');
-        eDivPercentBar.className = 'div-percent-bar';
-        eDivPercentBar.style.width = value + '%';
-        if (value < 20)
-        {
-            eDivPercentBar.style.backgroundColor = 'red';
-        }
-        else if (value < 60)
-        {
-            eDivPercentBar.style.backgroundColor = '#ff9900';
-        }
-        else
-        {
-            eDivPercentBar.style.backgroundColor = '#00A000';
-        }
-
-        var eValue = document.createElement('div');
-        eValue.className = 'div-percent-value';
-        eValue.innerHTML = value + '%';
-
-        var eOuterDiv = document.createElement('div');
-        eOuterDiv.className = 'div-outer-div';
-        eOuterDiv.appendChild(eDivPercentBar);
-        eOuterDiv.appendChild(eValue);
-
-        return eOuterDiv;
-    }
-
-    var SKILL_TEMPLATE =
-        '<label style="border: 1px solid lightgrey; margin: 4px; padding: 4px;">' +
-        '  <span>' +
-        '    <div style="text-align: center;">SKILL_NAME</div>' +
-        '    <div>' +
-        '      <input type="checkbox"/>' +
-        '      <img src="https://raw.githubusercontent.com/ag-grid/ag-grid/master/packages/ag-grid-docs/src/images/skills/SKILL.png" width="30px"/>' +
-        '    </div>' +
-        '  </span>' +
-        '</label>';
-
-    var FILTER_TITLE =
-        '<div style="text-align: center; background: lightgray; width: 100%; display: block; border-bottom: 1px solid grey;">' +
-        '<b>TITLE_NAME</b>' +
-        '</div>';
-
-    function SkillFilter()
-    {}
-
-    SkillFilter.prototype.init = function (params)
-    {
-        this.filterChangedCallback = params.filterChangedCallback;
-        this.model = {
-            android: false,
-            css: false,
-            html5: false,
-            mac: false,
-            windows: false
-        };
-    };
-
-    SkillFilter.prototype.getModel = function () {
-
-    };
-
-    SkillFilter.prototype.setModel = function (model) {
-
-    };
-
-    SkillFilter.prototype.getGui = function ()
-    {
-        var eGui = document.createElement('div');
-        var eInstructions = document.createElement('div');
-        eInstructions.innerHTML = FILTER_TITLE.replace('TITLE_NAME', 'Custom Skills Filter');
-        eGui.appendChild(eInstructions);
-
-        var that = this;
-
-        IT_SKILLS.forEach(function (skill, index)
-        {
-            var skillName = IT_SKILLS_NAMES[index];
-            var eSpan = document.createElement('span');
-            var html = SKILL_TEMPLATE.replace("SKILL_NAME", skillName).replace("SKILL", skill);
-            eSpan.innerHTML = html;
-
-            var eCheckbox = eSpan.querySelector('input');
-            eCheckbox.addEventListener('click', function ()
-            {
-                that.model[skill] = eCheckbox.checked;
-                that.filterChangedCallback();
-            });
-
-            eGui.appendChild(eSpan);
-        });
-
-        return eGui;
-    };
-
-
-    SkillFilter.prototype.isFilterActive = function ()
-    {
-        var model = this.model;
-        var somethingSelected = model.android || model.css || model.html5 || model.mac || model.windows;
-        return somethingSelected;
-    };
-
-
-    function ProficiencyFilter()
-    {}
-
-    ProficiencyFilter.prototype.init = function (params)
-    {
-        this.filterChangedCallback = params.filterChangedCallback;
-        this.selected = PROFICIENCY_NONE;
-        this.valueGetter = params.valueGetter;
-    };
-
-    ProficiencyFilter.prototype.getModel = function () {
-
-    };
-
-    ProficiencyFilter.prototype.setModel = function (model) {
-
-    };
-
-    ProficiencyFilter.prototype.getGui = function ()
-    {
-        var eGui = document.createElement('div');
-        var eInstructions = document.createElement('div');
-        eInstructions.innerHTML = FILTER_TITLE.replace('TITLE_NAME', 'Custom Proficiency Filter');
-        eGui.appendChild(eInstructions);
-
-        var random = '' + Math.random();
-
-        var that = this;
-        PROFICIENCY_NAMES.forEach(function (name, index)
-        {
-            var eFilter = document.createElement('div');
-            var html = PROFICIENCY_TEMPLATE.replace('PROFICIENCY_NAME', name).replace('RANDOM', random);
-            eFilter.innerHTML = html;
-            var eRadio = eFilter.querySelector('input');
-            if (index === 0)
-            {
-                eRadio.checked = true;
-            }
-            eGui.appendChild(eFilter);
-
-            eRadio.addEventListener('click', function ()
-            {
-                that.selected = PROFICIENCY_VALUES[index];
-                that.filterChangedCallback();
-            });
-        });
-
-        return eGui;
-    };
-
-
-    ProficiencyFilter.prototype.isFilterActive = function ()
-    {
-        return this.selected !== PROFICIENCY_NONE;
-    };
-
-    // })
 
     var dataw = localStorage.getItem("jackpotBetSlip");
     var final = JSON.parse(dataw);
@@ -507,271 +288,10 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
 
 
-    // var rowData = [
-    //     {name: "Toyota", model: "Celica", price: 35000},
-    //     {name: "Ford", model: "Mondeo", price: 32000},
-    //     {name: "Porsche", model: "Boxter", price: 72000}
-    // ];
 
-    var columnDefsdelivery = [
-        {
-            headerName: '',
-            width: 30,
-            checkboxSelection: true,
-            suppressSorting: true,
-            suppressMenu: true,
-            pinned: true
-        },
-        {
-            headerName: 'Table Items',
-            children: [
-                {
-                    headerName: "Invoice No",
-                    field: "invoice",
-                    width: 200,
-                    pinned: true
-                },
-                {
-                    headerName: "Amount",
-                    field: "amount",
-                    width: 100,
-                    pinned: true
-                },
-                {
-                    headerName: "Status",
-                    field: "status",
-                    width: 110,
-                    pinned: true
-                },
-                {
-                    headerName: "Location",
-                    field: "location",
-                    width: 200,
-                    pinned: true
-                },
-                {
-                    headerName: "Type",
-                    field: "transaction_type",
-                    width: 200,
-                    pinned: true,
-                    filterParams:
-                    {
-                        cellRenderer: countryCellRenderer,
-                        cellHeight: 20
-                    }
-                },
-                {
-                    headerName: "Date",
-                    field: "created_at",
-                    width: 350,
-                    pinned: true,
-                    filterParams:
-                    {
-                        cellRenderer: countryCellRenderer,
-                        cellHeight: 20
-                    }
-                },
-                // {headerName: "Timestamp", field: "country", width: 150,
-                //     cellRenderer: countryCellRenderer, pinned: true,
-                //     filterParams: {cellRenderer: countryCellRenderer, cellHeight: 20}},
-            ]
-        },
-
-    ];
-
-    var columnDefs = [
-        {
-            headerName: '',
-            width: 30,
-            checkboxSelection: true,
-            suppressSorting: true,
-            suppressMenu: true,
-            pinned: true
-        },
-        {
-            headerName: 'Table Items',
-            children: [
-                {
-                    headerName: "Title",
-                    field: "title",
-                    width: 150,
-                    pinned: true
-                },
-                {
-                    headerName: "Price",
-                    field: "price",
-                    width: 170,
-                    pinned: true
-                },
-                {
-                    headerName: "Category",
-                    field: "category",
-                    width: 150,
-                    pinned: true
-                },
-                {
-                    headerName: "InvoiceNo",
-                    field: "invoice",
-                    width: 250,
-                    pinned: true
-                },
-                {
-                    headerName: "Timestamp",
-                    field: "created_at",
-                    width: 350,
-                    pinned: true,
-                    filterParams:
-                    {
-                        cellRenderer: countryCellRenderer,
-                        cellHeight: 20
-                    }
-                },
-                // {headerName: "Timestamp", field: "country", width: 150,
-                //     cellRenderer: countryCellRenderer, pinned: true,
-                //     filterParams: {cellRenderer: countryCellRenderer, cellHeight: 20}},
-            ]
-        },
-
-    ];
-
-    var columnDefstwo = [
-        {
-            headerName: '',
-            width: 30,
-            checkboxSelection: true,
-            suppressSorting: true,
-            suppressMenu: true,
-            pinned: true
-        },
-        {
-            headerName: 'Mpesa Transactional | Pay On Delivery Details',
-            children: [
-                {
-                    headerName: "Code",
-                    field: "transaction_code",
-                    width: 120,
-                    pinned: true
-                },
-                {
-                    headerName: "Amount (Kes.)",
-                    field: "transaction_amount",
-                    width: 120,
-                    pinned: true,
-                    filterParams:
-                    {
-                        cellRenderer: countryCellRenderer,
-                        cellHeight: 20
-                    }
-                },
-                {
-                    headerName: "Status",
-                    field: "transaction_status",
-                    width: 120,
-                    pinned: true
-                },
-                {
-                    headerName: "Method",
-                    field: "transaction_method",
-                    width: 120,
-                    pinned: true
-                },
-                {
-                    headerName: "Reference",
-                    field: "transaction_reference",
-                    width: 120,
-                    pinned: true
-                },
-                {
-                    headerName: "Type",
-                    field: "transaction_type",
-                    width: 120,
-                    pinned: true
-                },
-                {
-                    headerName: "Keyword",
-                    field: "transaction_account_keyword",
-                    width: 80,
-                    pinned: true
-                },
-                {
-                    headerName: "Paybill",
-                    field: "transaction_paybill",
-                    width: 85,
-                    pinned: true
-                },
-                {
-                    headerName: "Date",
-                    field: "transaction_date",
-                    width: 150,
-                    pinned: true
-                },
-
-
-                // {headerName: "Timestamp", field: "country", width: 150,
-                //     cellRenderer: countryCellRenderer, pinned: true,
-                //     filterParams: {cellRenderer: countryCellRenderer, cellHeight: 20}},
-            ]
-        },
-
-    ];
 
     var t = $rootScope.loadproducthistory;
 
-    $scope.gridOptionsdelivery = {
-        columnDefs: columnDefsdelivery,
-        rowData: kot,
-        rowSelection: 'multiple',
-        enableColResize: true,
-        enableSorting: true,
-        enableFilter: true,
-        enableGridMenu: false,
-        enableSelectAll: true,
-        // onModelUpdated: onModelUpdated,
-        exporterCsvFilename: 'myFile.csv',
-        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-        suppressRowClickSelection: true
-    };
-
-    $scope.gridOptionstwo = {
-        columnDefs: columnDefstwo,
-        rowData: bot,
-        rowSelection: 'multiple',
-        enableColResize: true,
-        enableSorting: true,
-        enableFilter: true,
-        enableGridMenu: false,
-        enableSelectAll: true,
-        // onModelUpdated: onModelUpdated,
-        exporterCsvFilename: 'myFile.csv',
-        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-        suppressRowClickSelection: true
-    };
-
-    $scope.gridOptions = {
-        columnDefs: columnDefs,
-        rowData: top,
-        rowSelection: 'multiple',
-        enableColResize: true,
-        enableSorting: true,
-        enableGridMenu: false,
-        enableSelectAll: true,
-        enableFilter: true,
-        exporterCsvFilename: 'myFile.csv',
-        exporterCsvLinkElement: angular.element(document.querySelectorAll(".custom-csv-link-location")),
-        onModelUpdated: onModelUpdated,
-        suppressRowClickSelection: true
-    };
-
-    // $scope.gridOptions = {
-    //     columnDefs: columnDefs,
-    //     rowData: top,
-    //     rowSelection: 'multiple',
-    //     enableColResize: true,
-    //     enableSorting: true,
-    //     enableFilter: true,
-    //     onModelUpdated: onModelUpdated,
-    //     suppressRowClickSelection: true
-    // };
 
     if (final === null || final === 'null')
     {
@@ -3209,11 +2729,68 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
             $.LoadingOverlay("hide");
         });
+    };
 
+    $scope.sancompreapply = function sancompreapply(jobcode, title)
+    {
+        console.log(jobcode);
+        console.log(title);
 
+        localStorage.setItem('code', jobcode);
+        localStorage.setItem('title', title);
+    };
 
+    $scope.notlogged = function notlogged()
+    {
+        swal("Polite Notice", "Please Login in order to apply for Jobs !!! ", "warning");
+    };
 
+    $scope.registerseeker = function registerseeker(fname, lname, email, age, gender, mobile, password,experience, level)
+    {
+        $.LoadingOverlay("show",
+            {
+                image: "",
+                background: "rgba(165, 190, 100, 0.5)",
+                text: "Activating your Account " + fname + "..."
+            });
 
+        console.log(fname);
+        console.log(lname);
+        console.log(email);
+        console.log(age);
+        console.log(gender);
+        console.log(mobile);
+        console.log(level);
+        console.log(password);
+        console.log(experience);
+
+        var farmtipsurl = "http://localhost:8080/api/newjobseeker?"+fname+"&"+lname+"&"+email+"&"+age+"&"+gender+"&"+mobile+"&"+level+"&"+password+"&"+experience;
+
+        $http(
+            {
+                method: 'POST',
+                url: farmtipsurl
+            }).then(function successCallback(response)
+        {
+            // this callback will be called asynchronously
+            // when the response is available
+            var loginresponse = response.data;
+
+            console.log(loginresponse);
+
+            swal("Registration Successful" ,"You have been registered", "success");
+            $.LoadingOverlay("hide");
+
+        }).then(function errorCallback(error)
+        {
+
+            console.log(error);
+            $.LoadingOverlay("hide");
+
+            //$.LoadingOverlay("hide");
+        });
+
+        $.LoadingOverlay("hide");
     }
 
 

@@ -1,0 +1,17 @@
+<div class="col-md-2">
+    left
+</div>
+<div class="col-md-8" ng-controller="registerController">
+    <div class="center-vertical" ng-init="sancomgetjobs()">
+
+        <div style="padding-top:45px; color: #00a9ff; box-shadow: 5px 5px 8px #1bc5ff;" ng-repeat=" jobs in myjobs.content">
+
+            <div style="padding-left: 5px;" data-toggle="collapse">
+                <h2>{{jobs.jobtitle}}</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-md-2">
+    right
+</div>
