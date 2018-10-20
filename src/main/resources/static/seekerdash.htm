@@ -1,0 +1,139 @@
+<style>
+
+    table, td, th {
+        border: 1px solid #ddd;
+        text-align: left;
+    }
+
+    table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    th, td {
+        padding: 15px;
+    }
+    .tabinator {
+        background: #fff;
+        width: 100%;
+        font-family: Open Sans;
+    }
+    .tabinator h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .tabinator input {
+        display: none;
+    }
+    .tabinator label {
+        box-sizing: border-box;
+        display: inline-block;
+        padding: 15px 25px;
+        color: #ccc;
+        margin-bottom: -1px;
+        margin-left: -1px;
+    }
+    .tabinator label:before {
+        content:'';
+        display:block;
+        width:100%;
+        height:15px;
+        background-color:#fff;
+        position:absolute;
+        bottom:-11px;
+        left:0;
+        z-index:10;
+    }
+    .tabinator label:hover {
+        color: #888;
+        cursor: pointer;
+    }
+    .tabinator input:checked + label {
+        position: relative;
+        color: #000;
+        background: #fff;
+        border: 1px solid #bbb;
+        border-bottom: 1px solid #fff;
+        border-radius: 5px 5px 0 0;
+    }
+    .tabinator input:checked + label:after {
+        display: block;
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        box-shadow: 0 0 15px #939393;
+    }
+    #content1, #content2, #content3, #content4 {
+        display: none;
+        border-top: 1px solid #bbb;
+        padding: 15px;
+    }
+    #tab1:checked ~ #content1,
+    #tab2:checked ~ #content2,
+    #tab3:checked ~ #content3,
+    #tab4:checked ~ #content4 {
+        display: block;
+        box-shadow: 0 0 15px #939393;
+    }
+</style>
+
+<div class="col-md-12" ng-controller="registerController">
+    <div class="container" style="padding-top: 30px;" ng-show="seekeron == 0" ng-init="seekergetapplications()">
+        <h2>SEEKER DASHBOARD</h2>
+        <div class = "tabinator">
+
+            <input type = "radio" id = "tab1" name = "tabs" checked>
+            <label for = "tab1">Applied Jobs</label>
+            <input type = "radio" id = "tab2" name = "tabs">
+            <label for = "tab2" ng-init="profile()">Profile</label>
+            <input type = "radio" id = "tab3" name = "tabs">
+            <!--<label for = "tab3">Tab3</label>-->
+            <!--<input type = "radio" id = "tab4" name = "tabs">-->
+            <!--<label for = "tab4">Tab4</label>-->
+            <div id = "content1">
+                <!--{{myapplications}}-->
+                <table>
+                    <tr style="background: #1bc5ff; color: white;">
+                        <th>JOBCODE</th>
+                        <th>TITLE</th>
+                        <th>LEVEL</th>
+                        <th>EXPERIENCE</th>
+                        <th>DEACTIVATE JOB</th>
+                    </tr>
+                    <tr ng-repeat=" dat in myapplications.content ">
+                        <td>{{dat.job_code}}</td>
+                        <td>{{dat.job_title}}</td>
+                        <td>{{dat.edulevel}}</td>
+                        <td>{{dat.experience}}</td>
+                        <td><button type="button" style="background: red; color: white">DEACTIVATE JOB</button> </td>
+                    </tr>
+                </table>
+            </div>
+            <div id = "content2">
+
+                <table>
+                    <tr style="background: #1bc5ff; color: white;">
+                        <th>FIRST NAME</th>
+                        <th>LAST NAME</th>
+                        <th>GENDER</th>
+                        <th>AGE</th>
+                        <th>EMAIL </th>
+                        <th>EDUCATION LEVEL </th>
+                        <th>EXPERIENCE </th>
+                    </tr>
+                    <tr>
+                        <td>{{profiles.firstname}}</td>
+                        <td>{{profiles.lastname}}</td>
+                        <td>{{profiles.gender}}</td>
+                        <td>{{profiles.age}}</td>
+                        <td>{{profiles.email}}</td>
+                        <td>{{profiles.edu_level}}</td>
+                        <td>{{profiles.experience}}</td>
+
+                    </tr>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

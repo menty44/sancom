@@ -71,7 +71,7 @@
 
 
 
-<body >
+<body ng-controller="registerController">
 
 <ul >
     <li><a href="/">Home</a></li>
@@ -85,8 +85,9 @@
         <a  href="#!regseeker">
             Register</a>
     </li>
-    <li ng-show="loginresponse == 0 || seekeron == 0" style="color:white; float: right"><button class="btn btn-outline-danger">Logout</button></li>
-    <li ng-show="loginresponse == 0 || seekeron == 0" style="color:white; float: right"><a>Dashboard</a></li>
+    <li ng-show="loginresponse == 0 || seekeron == 0" style="color:white; float: right"><button class="btn btn-outline-danger" ng-click="logout()">Logout</button></li>
+    <li ng-show="loginresponse == 0 || seekeron == 0" style="color:white; float: right">
+        <a href="#!seekerdash">Dashboard</a></li>
 
 </ul>
 

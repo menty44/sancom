@@ -40,9 +40,9 @@ app.config(function ($routeProvider)
                 templateUrl: "profile.htm"
             })
 
-        .when("/animalfeeds",
+        .when("/seekerdash",
             {
-                templateUrl: "categories.htm"
+                templateUrl: "seekerdash.htm"
             })
 
         .when("/agrovet",
@@ -134,19 +134,6 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
     //showallproductsahead();
 
-    $scope.slides = [
-        {
-            image: 'http://lorempixel.com/400/200/'
-        },
-        {
-            image: 'http://lorempixel.com/400/200/food'
-        },
-        {
-            image: 'http://lorempixel.com/400/200/sports'
-        },
-        {
-            image: 'http://lorempixel.com/400/200/people'
-        }];
 
     //counties in kenya
     $scope.states = ["Turkana",
@@ -478,12 +465,15 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
         var session = localStorage.getItem("spaceship");
 
-        if (session === "true")
+        if (session == "true")
         {
             // if($rootScope.logsuc === 0){
 
             //user is still logged in
             $rootScope.logsuc = 0;
+
+            //seeker is still logged in
+            $rootScope.seekeron = 0;
 
             $rootScope.finalamount = localStorage.getItem('payableamt');
 
@@ -501,6 +491,8 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
             //user is logged out
             $rootScope.logsuc = 5;
+
+            $rootScope.seekeron = 5;
 
             $location.path('/categories');
 
@@ -2821,6 +2813,9 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
 
                     localStorage.setItem('profile', JSON.stringify(loginresponse));
 
+                    //maintain the user session
+                    localStorage.setItem("spaceship", true);
+
                     swal("Login Successful" ,"You can now use the Portal", "success");
                     $.LoadingOverlay("hide");
                     $location.path('/');
@@ -2835,6 +2830,58 @@ app.controller("registerController", function ($scope, $http, $rootScope, $timeo
             }
 
         })
+    };
+
+    $scope.seekergetapplications = function seekergetapplications()
+    {
+
+        console.log('showing all applications ahead of its time');
+
+        $.LoadingOverlay("show",
+            {
+                image: "",
+                background: "rgba(165, 190, 100, 0.5)",
+                text: "Loading All Applications ..."
+            });
+
+        var loginurl = "http://localhost:8080/api/applications";
+
+
+        // Simple GET request
+        $http(
+            {
+                method: 'GET',
+                url: loginurl
+            }).then(function successCallback(response)
+        {
+            // this callback will be called asynchronously
+            // when the response is available
+            var loginresponse = response.data;
+            var loginresponse1 = response;
+
+            localStorage.setItem('myjobs', JSON.stringify(loginresponse));
+            $rootScope.myapplications = loginresponse;
+            console.log(loginresponse);
+            $.LoadingOverlay("hide");
+
+        }).then(function errorCallback(error)
+        {
+
+            console.log(error);
+
+            $.LoadingOverlay("hide");
+        });
+    };
+
+    $scope.profile = function profile()
+    {
+        var pro = localStorage.getItem('profile');
+
+        var prof = JSON.parse(pro);
+
+        console.log(prof);
+
+        $rootScope.profiles = prof;
     }
 
 });
