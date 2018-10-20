@@ -11,5 +11,8 @@
 * Run the project using this command, ./mvnw spring-boot:run
 * You can now access the project using this url; localhost:8080
 
-#Controllers
+# Controllers
 *The controllers are inside the controller directory
+
+# Jacoco location
+* Jacoco is under target/jacoco-ut/index.html
