@@ -76,19 +76,6 @@ public class USSDController {
         }
 
         return response;
-
-//        if(sessionId!= null && !sessionId.isEmpty() &&
-//                serviceCode!= null && !serviceCode.isEmpty()&&
-//                phoneNumber!= null && !phoneNumber.isEmpty() &&
-//                text!= null && !text.isEmpty()){
-//
-//
-//        }else {
-//            String ts = "one of the parameters is missing";
-//            response.put("error", ts);
-//            response.put("code", "05");
-//            return ResponseEntity.badRequest().body(response);
-//        }
     }
 
 }
