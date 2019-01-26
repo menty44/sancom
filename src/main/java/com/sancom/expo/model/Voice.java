@@ -22,7 +22,7 @@ import java.util.UUID;
  */
 
 @Entity
-@Table(name = "ussd")
+@Table(name = "voice")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)

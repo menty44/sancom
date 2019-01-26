@@ -44,7 +44,7 @@ public class USSDController {
 
         String response = "END The request could not be processed.";
 
-        if (text == null || text.isEmpty()){
+        if (text.isEmpty()){
             // This is the first request. Note how we start the responseponse with CON
             response = "CON What would you want to check \n";
             response = response + "1. Account Enquiry \n";
@@ -54,14 +54,29 @@ public class USSDController {
             System.out.println("response : " + response);
             return response;
 
-        }else if (text.equals("1")){
+        }
+
+        if (text.equals("1")){
             response = "CON Enter account number \n";
             return response;
-        }else if (text.equals("2")){
-            response = "CON Collection success \n";
-            return response;
-        }else if (text.equals("3")){
+        }
+
+        if (text.equals("2")){
+                response = "CON Collection success \n";
+                return response;
+        }
+
+        if (text.equals("3")){
             response = "END Transfer success \n";
+            return response;
+        }
+
+        if(text.startsWith("1*") && text.length() == 6){
+            response = "CON Enter Your Identification Number \n";
+            return response;
+
+        }else if (text.startsWith("1*") && text.length() == 11){
+            response = "END Your Account "+ text.substring(2,6)+" is fully activated \n";
             return response;
         }
 

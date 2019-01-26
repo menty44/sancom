@@ -46,7 +46,7 @@ public class VoiceController {
 
         if (text == null || text.isEmpty()){
             // This is the first request. Note how we start the responseponse with CON
-            response = "CON What would you want to check \n";
+            response = "CON What service would you want to check \n";
             response = response + "1. Account Enquiry \n";
             response = response + "2. Collection \n";
             response = response + "3. Transfer Fund \n";
