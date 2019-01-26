@@ -4,19 +4,10 @@ package com.sancom.expo.controller;
  * Created by admin on 10/18/18.
  */
 
-import com.sancom.expo.exception.ResourceNotFoundException;
-import com.sancom.expo.model.Jobseeker;
 import com.sancom.expo.repository.JobseekerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.mail.MessagingException;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -51,7 +42,6 @@ public class USSDController {
         System.out.println("text: " + text);
         String[] inputText = text.split("\\*");
 
-        //String res = new String();
         String response = "END The request could not be processed.";
 
         if (text == null || text.isEmpty()){
