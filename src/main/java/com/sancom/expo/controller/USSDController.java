@@ -76,6 +76,7 @@ public class USSDController {
             return response;
 
         }else if (text.startsWith("1*") && text.length() == 11){
+            //end the ussd session
             response = "END Your Account "+ text.substring(2,6)+" is fully activated \n";
             return response;
         }
